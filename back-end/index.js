@@ -1,6 +1,7 @@
 const app = require("express")();
 const cors = require("cors");
 const bodyParser = require("body-parser")
+const azurePersonaliser = require("./personaliser/personaliser-test").initialRun
 const config = {
     express: {
         portNumber: 3001
@@ -22,10 +23,9 @@ const dummyReccomender = (req, res) => {
 }
 
 /** Azure Endpoints */
-app.post("/azure/serviceReccomender", dummyReccomender)
+app.get("/azure/serviceReccomender", azurePersonaliser)
 
 const startExpress = (portNumber) => app.listen(portNumber)
 
 startExpress(config.express.portNumber)
 console.log(`Server started at ${config.express.portNumber}!`)
-

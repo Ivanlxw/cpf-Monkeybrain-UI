@@ -13,6 +13,8 @@
     "@azure/cognitiveservices-personalizer": "^2.0.0",
     "@azure/ms-rest-azure-js": "^2.0.1",
     "@azure/ms-rest-js": "^2.0.5",
+    "@types/readline-sync": "^1.4.3",
+    "@types/uuid": "^7.0.2",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",

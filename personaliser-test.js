@@ -1,4 +1,3 @@
-
 // <Dependencies>
 const uuidv1 = require('uuid/v1');
 const Personalizer = require('@azure/cognitiveservices-personalizer');

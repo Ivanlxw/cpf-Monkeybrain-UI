@@ -8,6 +8,7 @@ import hospitalLogo from '../../assets/cpf-svg/hospital.svg';
 import gradHatLogo from '../../assets/cpf-svg/graduation-hat.svg';
 import calcLogo from '../../assets/cpf-svg/calculator.svg';
 import Container from '@material-ui/core/Container';
+import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
     title: {
@@ -29,6 +30,11 @@ const logos = [
 
 export default function CpfServices(props) {
     const classes = useStyles();
+    React.useEffect(() => {
+        axios.get("http://localhost:3001/azure/serviceReccomender")
+        .then(res => console.log(res.data.data))
+        .catch(err => console.log(err))
+    })
 
     return(
         <Container>
