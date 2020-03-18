@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { loadCSS } from 'fg-loadcss';
+import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -45,15 +44,61 @@ const useStyles = makeStyles(theme => ({
 
 export default function CpfWithdrawal() {
     const classes = useStyles(); 
-    // const [selectedDate, setSelectedDate] = React.useState(null); //new Date('1966-08-18T21:11:54') 
+    const [selectedDate, setSelectedDate] = React.useState(null); //new Date('1966-08-18T21:11:54') 
+    const [oa, setOa] = React.useState(0);
+    const [sa, setSa] = React.useState(0);
+    const [withdraw, setWithdraw] = React.useState(0)
+    const [limit, setLimit] = React.useState(0)
 
-
-    // const handleDateChange = date => {
-    //   setSelectedDate(date);
-    // };
+    const handleDateChange = event => {
+        try {
+            new Date(event.target.value)
+        } catch(err) {
+                return
+        } finally {
+            const thisYear = new Date().getFullYear()
+            const tempAge = thisYear - new Date(event.target.value).getFullYear()
+            console.log(tempAge)
+            if (tempAge > 59) {
+                setLimit(161000)
+            } else if (tempAge > 54 && tempAge <= 59) {
+                setLimit((181000-(tempAge-55)*5000));
+            } else if (tempAge > 20 && tempAge < 55){
+                setLimit(181000);
+            } else {
+                setLimit(0)
+            }
+        }
+    }
     
     function handleValue(item, value) {
-        console.log(item, value);
+        if (item === 'ordinary') {
+            setOa(value)
+            let amnt = parseFloat(oa) + parseFloat(sa);
+            if (amnt > 0 && amnt < 5000) {
+                setWithdraw(amnt)
+                return
+            } else if (amnt >= 5000 && amnt <= 181000) {
+                setWithdraw(5000);
+                return
+            } else if (amnt > 181000) {
+                setWithdraw((amnt-181000).toFixed(2))
+                return
+            }
+        } else if (item === 'special') {
+            setSa(value)
+            let amnt = parseFloat(oa) + parseFloat(sa);
+            if (amnt > 0 && amnt < 5000) {
+                setWithdraw(amnt)
+                return
+            } else if (amnt >= 5000 && amnt <= 181000) {
+                setWithdraw(5000);
+                return
+            } else if (amnt > 181000) {
+                setWithdraw((amnt-181000).toFixed(2))
+                return
+            }
+        }        
     }
     
     return(
@@ -73,7 +118,7 @@ export default function CpfWithdrawal() {
                                 <TextField 
                                     id="ordinary-acct" 
                                     label="Ordinary Account" 
-                                    onChange={(event) => handleValue('principal', event.target.value)}
+                                    onChange={(event) => handleValue('ordinary', event.target.value)}
                                 />
                             </Grid>
                         </Grid>
@@ -93,7 +138,7 @@ export default function CpfWithdrawal() {
                                 <TextField 
                                     id="special-acct" 
                                     label="Special Account" 
-                                    onChange={(event) => handleValue('principal', event.target.value)}
+                                    onChange={(event) => handleValue('special', event.target.value)}
                                 />
                             </Grid>
                         </Grid>
@@ -114,7 +159,7 @@ export default function CpfWithdrawal() {
                                 <TextField 
                                     id="medisave-acct" 
                                     label="Medisave Account" 
-                                    onChange={(event) => handleValue('principal', event.target.value)}
+                                    onChange={(event) => handleValue('medisave', event.target.value)}
                                 />
                             </Grid>
                         </Grid>
@@ -131,8 +176,8 @@ export default function CpfWithdrawal() {
                                     id="date"
                                     label="Birthday"
                                     type="date"
-                                    defaultValue="2017-05-24"
                                     className={classes.textField}
+                                    onChange={event => handleDateChange(event)}
                                     InputLabelProps={{
                                     shrink: true,
                                     }}
@@ -147,8 +192,8 @@ export default function CpfWithdrawal() {
                 <Typography className={classes.margin} variant="h5">
                     Results 
                 </Typography>
-                <DashboardCard moreInfo="Your estimated withdrawal amount is" value={12000} />
-                <DashboardCard moreInfo="The estimated retirement sum set aside in your Retirement Account is" value={181000} />
+                <DashboardCard moreInfo="Your estimated withdrawal amount is" value={withdraw} />
+                <DashboardCard moreInfo="The estimated retirement sum set aside in your Retirement Account is" value={limit} />
             </div>
         </div>
     );
