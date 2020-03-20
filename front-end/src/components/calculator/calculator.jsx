@@ -8,6 +8,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import CpfWithdrawal from './Forms/Health/healthCalc';
+import OutstandingLoanForm from './Forms/Housing/outstandingLoan';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -52,8 +53,8 @@ export const Calculator = function() {
                 break;
             case 'housing':
                 setOptionsData([
-                    { title: 'CPF Housing Usage Calculator', component: ""},
-                    { title: 'Loan Repayment Period Calculator', component: ""},
+                    { title: 'Outstanding Loan Calculator', component: <OutstandingLoanForm />},
+                    { title: 'Loan Repayment Period Calculator', component: <LoanRepayForm />},
                 ])
                 break;
             case 'healthcare':
