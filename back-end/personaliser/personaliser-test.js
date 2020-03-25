@@ -13,9 +13,9 @@ const PERSONALIZER_ENDPOINT = "https://monkey-brain.cognitiveservices.azure.com/
 /**
  * TODO: Train personaliser using the input as well as modify profile
  * Loop has been removed as it will be called each time user clicks
- * @param {*} selectedService the service that the user clicks on
+ * @param {req} selectedService the service that the user clicks on
  */
-async function main(selectedService) {
+exports.trainer = async (req, res) => {
 
   // <AuthorizationVariables>
   // The key specific to your personalization service instance; e.g. "0123456789abcdef0123456789ABCDEF"
@@ -33,58 +33,64 @@ async function main(selectedService) {
   let personalizerClient = new Personalizer.PersonalizerClient(credentials, baseUri);
   // </Client>
 
-  // <JSON>
-  let fs = require('fs');
-  let data = fs.readFileSync('../Profile_Arun.json', 'utf8');
-  let profile = JSON.parse(data);
-  //console.log(words.Age);
-  // </JSON>
+  try {
+    // <JSON>
+    let fs = require('fs');
+    let data = fs.readFileSync('./Profile_Arun.json', 'utf8');
+    let profile = JSON.parse(data);
+    //console.log(words.Age);
+    // </JSON>
 
 
-  // <mainLoop>
-  let runLoop = true;
+    // <mainLoop>
+    let runLoop = true;
 
 
-  // <rank>
-  let rankRequest = {};
+    // <rank>
+    let rankRequest = {};
 
-  // Generate an ID to associate with the request.
-  rankRequest.eventId = uuidv1();
+    // Generate an ID to associate with the request.
+    rankRequest.eventId = uuidv1();
 
-  // Get context information from the user.
-  rankRequest.contextFeatures = getContextFeaturesList(profile);
+    // Get context information from the user.
+    rankRequest.contextFeatures = getContextFeaturesList(profile);
 
-  // Get the actions list to choose from personalization with their features.
-  rankRequest.actions = getActionsList();
+    // Get the actions list to choose from personalization with their features.
+    rankRequest.actions = getActionsList();
 
-  // Exclude an action for personalization ranking. This action will be held at its current position.
-  rankRequest.excludedActions = getExcludedActionsList();
+    // Exclude an action for personalization ranking. This action will be held at its current position.
+    rankRequest.excludedActions = getExcludedActionsList();
 
-  rankRequest.deferActivation = false;
+    rankRequest.deferActivation = false;
 
-  // Rank the actions
-  let rankResponse = await personalizerClient.rank(rankRequest);
-  // </rank>
+    // Rank the actions
+    let rankResponse = await personalizerClient.rank(rankRequest);
+    // </rank>
 
-  // console.log("\nPersonalization service thinks you would like to have:\n")
-  // console.log(rankResponse.rewardActionId);
+    // console.log("\nPersonalization service thinks you would like to have:\n")
+    // console.log(rankResponse.rewardActionId);
 
-  // Display top choice to user, user agrees or disagrees with top choice
-  let reward = getReward(rankResponse.rewardActionId, selectedService);
+    // Display top choice to user, user agrees or disagrees with top choice
+    let reward = getReward(rankResponse.rewardActionId, req.body.selectedService);
 
-  // console.log("\nPersonalization service ranked the actions with the probabilities as below:\n");
-  // for (var i = 0; i < rankResponse.ranking.length; i++) {
-  //   console.log(JSON.stringify(rankResponse.ranking[i]) + "\n");
-  // }
+    // console.log("\nPersonalization service ranked the actions with the probabilities as below:\n");
+    // for (var i = 0; i < rankResponse.ranking.length; i++) {
+    //   console.log(JSON.stringify(rankResponse.ranking[i]) + "\n");
+    // }
 
-  // Send the reward for the action based on user response.
+    // Send the reward for the action based on user response.
 
-  // <reward>
-  let rewardRequest = {
-    value: reward
-  };
+    // <reward>
+    let rewardRequest = {
+      value: reward
+    };
 
-  await personalizerClient.events.reward(rankRequest.eventId, rewardRequest);
+    await personalizerClient.events.reward(rankRequest.eventId, rewardRequest);
+
+    return res.json({ status: 200 })
+  } catch (err) {
+    return res.status(400).json({ error: err })
+  }
   // </reward>
 
   // </mainLoop>

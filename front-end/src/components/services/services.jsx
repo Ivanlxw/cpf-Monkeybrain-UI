@@ -55,7 +55,10 @@ export default function CpfServices(props) {
     React.useEffect(() => {
         if (services.length == 0) {
             axios.get("http://localhost:3001/azure/serviceReccomender/initial")
-            .then(res => handleServicesUpdate(res.data.data.ranking))
+            .then(res => { 
+                console.log(res.data.data)
+                handleServicesUpdate(res.data.data.ranking) 
+            })
             .catch(err => console.log(err))
         }
     })
