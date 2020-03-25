@@ -70,7 +70,7 @@ async function main(selectedService) {
   // console.log(rankResponse.rewardActionId);
 
   // Display top choice to user, user agrees or disagrees with top choice
-  let reward = getReward();
+  let reward = getReward(rankResponse.rewardActionId, selectedService);
 
   // console.log("\nPersonalization service ranked the actions with the probabilities as below:\n");
   // for (var i = 0; i < rankResponse.ranking.length; i++) {
@@ -82,7 +82,7 @@ async function main(selectedService) {
   // <reward>
   let rewardRequest = {
     value: reward
-  }
+  };
 
   await personalizerClient.events.reward(rankRequest.eventId, rewardRequest);
   // </reward>
@@ -150,13 +150,20 @@ function continueLoop() {
 
 /** Change this */
 // <getReward>
-function getReward() {
+function getReward_Old() {
   var answer = readline.question("\nIs this correct (y/n)\n");
   if (answer.toLowerCase() === 'y') {
     console.log("\nGreat| Enjoy your service.");
     return 1;
   }
   console.log("\nYou didn't like the recommended choice.");
+  return 0;
+}
+
+function getReward(guessedAnswer, correctAnswer) {
+  if (guessedAnswer === correctAnswer) {
+    return 1;
+  }
   return 0;
 }
 // </getReward>
@@ -365,6 +372,44 @@ function getActionsList() {
                 "Minimum": 10000,
                 "Maximum": 10000000
               }
+        }
+      ]
+    },
+    {
+      "id": "Claim Medisave",
+      "features": [
+        {
+          "Sickness_urgency": 1,
+          "Generosity": 1
+        }
+      ]
+    },
+    {
+      "id": "Claim Eldershield",
+      "features": [
+        {
+          "Sickness_urgency": 1,
+          "Age": 60,
+          "Married": 1,
+          "Income": 2000
+        }
+      ]
+    },
+    {
+      "id": "Apply Private Medical Insurance",
+      "features": [
+        {
+          "Employment_Status": 2
+        }
+      ]
+    },
+    {
+      "id": "Check Medishield",
+      "features": [
+        {
+          "Age": 40,
+          "Income": 1500,
+          "Sickness_urgency": 1
         }
       ]
     }
