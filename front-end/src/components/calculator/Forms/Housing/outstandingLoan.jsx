@@ -1,9 +1,7 @@
 import React from 'react';
-import { loadCSS } from 'fg-loadcss';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import { AttachMoney } from '@material-ui/icons';
 import { Typography } from '@material-ui/core';
 import Icon from '@material-ui/core/Icon';
 import { DashboardCard } from '../../../card/card';
@@ -37,9 +35,63 @@ const useStyles = makeStyles(theme => ({
 export default function OutstandingLoanForm() {
     const classes = useStyles();
     const [remain, setRemain] = React.useState(20000);
+    const [endAge, setEndAge] = React.useState('');
+    const [startAge, setStartAge] = React.useState('');
+    const [capital, setCapital] = React.useState(0);
+    const [monthly, setMonthly] = React.useState(0);
+    const [ir, setIr] = React.useState(0);
+
 
     function handleValue(item, value) {
         console.log(item, value);
+        switch(item) {
+            case "end-age":
+                if (value > 0 && value <= 100) {
+                    setEndAge(value);
+                } else {
+                    setEndAge('');
+                }
+                break;
+            case "start-age":
+                if (value > 0 && value <= 100) {
+                    setStartAge(value);
+                } else {
+                    setStartAge('');
+                }
+                break;
+            case "initial":
+                if (value > 0 && value <= 100000000) {
+                    setCapital(value);
+                }
+                break;
+            case "monthly":
+                setMonthly(value);
+                break;
+            
+            case "ir":
+                setIr(parseFloat(value)/100);
+                break;
+            default:
+                break;
+        }
+
+        // Recalculate outstanding value
+        console.log(ir)
+        const y = parseInt(endAge - startAge);
+        let toReturn = capital;
+        for (let c=0; c<y; c++) {
+            toReturn = (toReturn - monthly) * (1+ir);
+        }
+        console.log(toReturn);
+        
+        // const cumIr = ((Math.pow((1+ir),y)-1)/(ir))
+        // console.log(cumIr)
+        // let temp_r = capital * Math.pow((1+ir),y) - monthly * cumIr;
+        if (toReturn > 0) {
+            setRemain(toReturn.toFixed(2));
+        } else {
+            setRemain('');
+        }
     }
 
     return (
@@ -152,7 +204,7 @@ export default function OutstandingLoanForm() {
                     </Grid>
                     {/* Results */}
                     <Grid>
-                        <DashboardCard moreInfo={`Outstanding Loan Balance at ${52}`} value={`$${remain.toFixed(2)}`} />
+                        <DashboardCard moreInfo={`Outstanding Loan Balance at ${endAge}`} value={`$${remain}`} />
                     </Grid>
                 </div>
             </form>
