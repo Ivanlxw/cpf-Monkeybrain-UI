@@ -6,6 +6,7 @@ import { Calculator } from './components/calculator/calculator';
 import SimpleDialogDemo from './components/walkthrough/walkthrough';
 import Container from '@material-ui/core/Container';
 import './App.css';
+import axios from 'axios';
 
 class App extends React.Component {
   constructor() {
@@ -27,7 +28,7 @@ class App extends React.Component {
         return <MainDashboard />
       case 'calculator':
         return <Calculator />
-      case 'housing':
+      case 'Apply HDB':
         return <SimpleDialogDemo />
       default:
         return ''
@@ -35,8 +36,18 @@ class App extends React.Component {
   }
 
   changeType(param) {
+    if (param != "calculator") {
+      axios.post("http://localhost:3001/azure/serviceReccomender/trainer", { selectedService: param })
+      .then(() => {
+        console.log("Trained Personaliser!")
+        this.setState({
+          dashboardtype: param 
+        })
+      })
+      .catch(err => console.log(err))
+    }
     this.setState({
-      dashboardtype: param 
+      dashboardtype: param
     })
   }
 
