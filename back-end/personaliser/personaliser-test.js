@@ -7,7 +7,7 @@ const CognitiveServicesCredentials = require('@azure/ms-rest-azure-js').Cognitiv
 const readline = require('readline-sync');
 // </Dependencies>
 
-const PERSONALIZER_KEY = "611ef96646c74ebfbc5c1c14b0776613";
+const PERSONALIZER_KEY = "c431c3afc6e74c1fb4b1c7d69a5692ac";
 const PERSONALIZER_ENDPOINT = "https://monkey-brain.cognitiveservices.azure.com/";
 
 /**
@@ -354,7 +354,7 @@ function getActionsList() {
       ]
     },
     {
-      "id": "Invest Money",
+      "id": "Invest Your Money",
       "features": [
         {
           "Age": 30,
