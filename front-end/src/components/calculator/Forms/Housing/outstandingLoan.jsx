@@ -88,7 +88,7 @@ export default function OutstandingLoanForm() {
         // console.log(cumIr)
         // let temp_r = capital * Math.pow((1+ir),y) - monthly * cumIr;
         if (toReturn > 0) {
-            setRemain(toReturn.toFixed(2));
+            setRemain(toReturn.toFixed(6));
         } else {
             setRemain('');
         }
