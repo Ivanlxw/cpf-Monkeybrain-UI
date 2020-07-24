@@ -44,14 +44,14 @@ const logosMappings = {
   "Apply HDB": applyHDB,
   "Private Property": privateProperty,
   "House Insurance": houseInsurance,
-  "Withdraw CPF Fund": withdrawCPF,
+//   "Withdraw CPF Fund": withdrawCPF,
   "Top Up CPF": topupCPF,
   "Save for Retirement": saveForRetirement,
   "Pay for Your Children": payForChildren,
   "Invest Your Money": invest,
   "Self Employed": selfEmployed,
   "Silver Support": silverSupport,
-  "Contribute CPF for Employees": employeesCPF,
+//   "Contribute CPF for Employees": employeesCPF,
   "CPF Nomination": nominationCPF,
   "CPF Calculator": calculate
 }
