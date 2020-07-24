@@ -23,10 +23,11 @@ class App extends React.Component {
     })
   }
   renderSwtich() {
+    console.log("DashboardType: " + this.state.dashboardtype);
     switch(this.state.dashboardtype) {
       case 'main':
         return <MainDashboard />
-      case 'calculator':
+      case 'CPF Calculator':
         return <Calculator />
       case 'Apply HDB':
         return <SimpleDialogDemo />
