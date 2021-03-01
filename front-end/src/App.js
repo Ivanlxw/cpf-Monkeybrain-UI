@@ -37,7 +37,7 @@ class App extends React.Component {
 
   changeType(param) {
     if (param != "calculator") {
-      axios.post("http://localhost:3001/azure/serviceReccomender/trainer", { selectedService: param })
+      axios.post('http://localhost:5000/azure/serviceReccomender/trainer', { selectedService: param })
       .then(() => {
         console.log("Trained Personaliser!")
         this.setState({

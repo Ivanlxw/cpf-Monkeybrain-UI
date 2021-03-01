@@ -5,10 +5,11 @@ const uuidv1 = require('uuid/v1');
 const Personalizer = require('@azure/cognitiveservices-personalizer');
 const CognitiveServicesCredentials = require('@azure/ms-rest-azure-js').CognitiveServicesCredentials;
 const readline = require('readline-sync');
+const azure_secrets = require('../azure-secrets');
 // </Dependencies>
 
-const PERSONALIZER_KEY = "c431c3afc6e74c1fb4b1c7d69a5692ac";
-const PERSONALIZER_ENDPOINT = "https://monkey-brain.cognitiveservices.azure.com/";
+const PERSONALIZER_KEY = azure_secrets.API_KEY;
+const PERSONALIZER_ENDPOINT = azure_secrets.ENDPOINT;
 
 /**
  * TODO: Train personaliser using the input as well as modify profile

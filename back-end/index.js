@@ -3,11 +3,11 @@ const cors = require("cors");
 const bodyParser = require("body-parser")
 const initialRun = require("./personaliser/personaliser-test").initialRun
 const trainer = require("./personaliser/personaliser-test").trainer
-const config = {
-    express: {
-        portNumber: 3001
-    }
-}
+// const config = {
+//     express: {
+//         portNumber: 3002
+//     }
+// }
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -30,5 +30,5 @@ app.post("/azure/serviceReccomender/trainer", trainer)
 
 const startExpress = (portNumber) => app.listen(portNumber)
 
-startExpress(config.express.portNumber)
-console.log(`Server started at ${config.express.portNumber}!`)
+startExpress(process.env.PORT);
+console.log(`Server started at ${process.env.PORT}!`)
