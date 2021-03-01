@@ -26,7 +26,7 @@ class App extends React.Component {
     switch(this.state.dashboardtype) {
       case 'main':
         return <MainDashboard />
-      case 'calculator':
+      case 'CPF Calculator':
         return <Calculator />
       case 'Apply HDB':
         return <SimpleDialogDemo />

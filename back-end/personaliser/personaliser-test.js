@@ -355,7 +355,7 @@ function getActionsList() {
       ]
     },
     {
-      "id": "Invest Money",
+      "id": "Invest Your Money",
       "features": [
         {
           "Age": 30,

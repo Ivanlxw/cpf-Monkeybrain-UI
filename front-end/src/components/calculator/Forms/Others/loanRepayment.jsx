@@ -88,7 +88,7 @@ export default function LoanRepayForm() {
     function calculateResult() {
         // let value = 0
         try {
-            const years = Math.log(principal / monthlyPayment) / Math.log(1+ir/12)
+            const years = Math.log(principal / monthlyPayment) / Math.log(1+ir/12) / 12
             if (years > 0 & years < 100) {
                 setResult(years.toFixed(2))
             }
@@ -113,15 +113,6 @@ export default function LoanRepayForm() {
                 <div id="loadcss">
                     <Grid container spacing={4}>
                         <Grid item xs={6}>
-                        <TextField 
-                            id="outlined-search" 
-                            label="Date of Birth (DD-MM-YYYY)" 
-                            type="search" 
-                            defaultValue="31-12-1996"
-                            variant="outlined"
-                        />
-                        </Grid>
-                        <Grid item xs={6}>
                             <div className={classes.margin}>
                                 <Typography>
                                     Loan Amount
@@ -136,27 +127,6 @@ export default function LoanRepayForm() {
                                             label="Total Loan Amount" 
                                             onChange={(event) => handleValue('principal', event.target.value)}
                                         />
-                                    </Grid>
-                                </Grid>
-                            </div>
-                        </Grid>
-                    </Grid>
-                    <Grid container spacing={4}>
-                        <Grid item xs={6}>
-                            <div className={classes.margin}>
-                                <Typography>
-                                    Interest Rate(per annum)
-                                </Typography>
-                                <Grid container spacing={1} alignItems="center" className={classes.paper}>
-                                    <Grid item>
-                                        <TextField 
-                                            id="interest-rate" 
-                                            label="Enter interest rate in %" 
-                                            onChange={(event) => handleValue('ir', event.target.value)}
-                                        />
-                                    </Grid>
-                                    <Grid item>
-                                        <Icon className="fas fa-percentage" styles={{padding: 0}}/>
                                     </Grid>
                                 </Grid>
                             </div>
@@ -179,6 +149,36 @@ export default function LoanRepayForm() {
                                     </Grid>
                                 </Grid>
                             </div>                        
+                        </Grid>
+                    </Grid>
+                    <Grid container spacing={4}>
+                        {/* <Grid item xs={6}>
+                            <TextField 
+                                id="outlined-search" 
+                                label="Date of Birth (DD-MM-YYYY)" 
+                                type="search" 
+                                defaultValue="31-12-1996"
+                                variant="outlined"
+                            />
+                        </Grid> */}
+                        <Grid item xs={6}>
+                            <div className={classes.margin}>
+                                <Typography>
+                                    Interest Rate(per annum)
+                                </Typography>
+                                <Grid container spacing={1} alignItems="center" className={classes.paper}>
+                                    <Grid item>
+                                        <TextField 
+                                            id="interest-rate" 
+                                            label="Enter interest rate in %" 
+                                            onChange={(event) => handleValue('ir', event.target.value)}
+                                        />
+                                    </Grid>
+                                    <Grid item>
+                                        <Icon className="fas fa-percentage" styles={{padding: 0}}/>
+                                    </Grid>
+                                </Grid>
+                            </div>
                         </Grid>
                     </Grid>
                 </div>
